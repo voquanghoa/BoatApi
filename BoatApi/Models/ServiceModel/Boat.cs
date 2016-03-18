@@ -1,11 +1,15 @@
 ﻿using BoatApi.Models.ServiceModel.Base;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
 
 namespace BoatApi.Models.ServiceModel
 {
-	[Table("User")]
-	public class User : BaseModel
+	[Table("Boat")]
+	public class Boat : BaseModel
 	{
 		[Required]
 		public string Name
@@ -14,13 +18,7 @@ namespace BoatApi.Models.ServiceModel
 		}
 
 		[Required]
-		public string Email
-		{
-			get; set;
-		}
-
-		[Required]
-		public string Password
+		public string ImageUrl
 		{
 			get; set;
 		}

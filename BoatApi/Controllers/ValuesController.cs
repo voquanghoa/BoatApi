@@ -21,11 +21,6 @@ namespace BoatApi.Controllers
 		{
 			unitOfWork = new UnitOfWork();
 		}
-		// GET api/values
-		public IEnumerable<User> Get()
-		{
-			return null;
-		}
 
 		// GET api/values/5
 		public string Get(int id)

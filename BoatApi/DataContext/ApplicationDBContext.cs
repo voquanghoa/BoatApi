@@ -16,6 +16,11 @@ namespace BoatApi.DataContext
 			set; get;
 		}
 
+		public DbSet<Boat> Boats
+		{
+			set; get;
+		}
+
 		public ApplicationDBContext() : base("DefaultConnection")
 		{
 		}

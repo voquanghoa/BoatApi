@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
+﻿using System.Runtime.Serialization;
 
 namespace BoatApi.Models.Communication.Request
 {
@@ -15,8 +11,8 @@ namespace BoatApi.Models.Communication.Request
 			get; set;
 		}
 
-		[DataMember(Name = "passwordHash", IsRequired = true)]
-		public string PasswordHash
+		[DataMember(Name = "password", IsRequired = true)]
+		public string Password
 		{
 			get; set;
 		}

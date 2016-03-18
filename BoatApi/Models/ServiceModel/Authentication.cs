@@ -19,6 +19,5 @@ namespace BoatApi.Models.ServiceModel
 		{
 			get; set;
 		}
-
 	}
 }

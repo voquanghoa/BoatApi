@@ -52,7 +52,12 @@ namespace BoatApi.Business.Logic.Common
 			return DbSet.AsQueryable();
 		}
 
-		public virtual T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null)
+		public T FindOne(Guid guid)
+		{
+			return DbSet.FirstOrDefault(x=>x.Id == guid);
+		}
+
+		public T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null)
 		{
 			if (includes != null && includes.Any())
 			{

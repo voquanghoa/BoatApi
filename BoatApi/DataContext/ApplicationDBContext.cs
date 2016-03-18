@@ -21,6 +21,11 @@ namespace BoatApi.DataContext
 			set; get;
 		}
 
+		public DbSet<Good> Good
+		{
+			set; get;
+		}
+
 		public ApplicationDBContext() : base("DefaultConnection")
 		{
 		}

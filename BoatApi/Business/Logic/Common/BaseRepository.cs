@@ -54,7 +54,12 @@ namespace BoatApi.Business.Logic.Common
 
 		public T FindOne(Guid guid)
 		{
-			return DbSet.FirstOrDefault(x=>x.Id == guid);
+			return FindOne((Guid?)guid);
+		}
+
+		public T FindOne(Guid? guid)
+		{
+			return DbSet.FirstOrDefault(x => x.Id == guid);
 		}
 
 		public T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null)
@@ -140,11 +145,6 @@ namespace BoatApi.Business.Logic.Common
 		public bool Contains(Expression<Func<T, bool>> predicate)
 		{
 			return DbSet.Any(predicate);
-		}
-
-		public virtual void ExecuteProcedure(String procedureCommand, params SqlParameter[] sqlParams)
-		{
-			UnitOfWork.DbContext.Database.ExecuteSqlCommand(procedureCommand, sqlParams);
 		}
 
 		public virtual void SaveChanges()

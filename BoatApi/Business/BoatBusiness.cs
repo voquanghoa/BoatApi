@@ -1,20 +1,16 @@
 ﻿using BoatApi.Business.Logic.Common;
 using BoatApi.Models.Communication.Request;
 using BoatApi.Models.ServiceModel;
+using BoatApi.WebException;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http.Controllers;
 
 namespace BoatApi.Business
 {
 	public class BoatBusiness
 	{
 		private BaseRepository<Boat> boatRepository;
-
 
 		public BoatBusiness(IUnitOfWork unitOfWork)
 		{
@@ -28,7 +24,14 @@ namespace BoatApi.Business
 
 		public Boat GetOne(Guid? boatId)
 		{
-			return boatRepository.FindOne(x => boatId == x.Id);
+			var boat = boatRepository.FindOne(boatId);
+
+			if (boatId == null)
+			{
+				throw new NotFoundException();
+			}
+
+			return boat;
 		}
 
 		public Guid CreateOne(AddBoatForm addBoatForm)
@@ -43,12 +46,15 @@ namespace BoatApi.Business
 			return newBoat.Id;
 		}
 
-		public bool Delete(Guid? boatId)
+		public void Delete(Guid? boatId)
 		{
-			return (boatRepository.Delete(x => x.Id == boatId) > 0);
+			if (boatRepository.Delete(x => x.Id == boatId) == 0)
+			{
+				throw new NotFoundException();
+			}
 		}
 
-		public bool Update(Guid? boatId, UpdateBoatForm updateBoatForm)
+		public void Update(Guid? boatId, UpdateBoatForm updateBoatForm)
 		{
 			var boat = boatRepository.FindOne(x=>x.Id == boatId);
 			if (boat != null)
@@ -63,9 +69,9 @@ namespace BoatApi.Business
 					boat.Name = updateBoatForm.Name;
 				}
 
-				return boatRepository.Update(boat) > 0;
+				boatRepository.Update(boat);
 			}
-			return false;
+			throw new NotFoundException();
 		}
 
 	}

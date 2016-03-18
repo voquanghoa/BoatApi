@@ -17,58 +17,62 @@ namespace BoatApi.Controllers
 			boatBusiess = new BoatBusiness(unitOfWork);
 		}
 
+		/// <summary>
+		/// Get the list of boats
+		/// </summary>
+		/// <returns>The list of boats</returns>
 		public IHttpActionResult Get()
 		{
-			return RunIfAuthenticated(() => Ok(boatBusiess.GetAll()));
+			return ExecuteRequest(() => Ok(boatBusiess.GetAll()));
 		}
 
+		/// <summary>
+		/// Get a boat by a specific id
+		/// </summary>
+		/// <param name="boatId">The id of boat</param>
+		/// <returns>The boat</returns>
 		public IHttpActionResult Get(Guid? boatId)
 		{
-			return RunIfAuthenticated(() => Ok(boatBusiess.GetOne(boatId)));
+			return ExecuteRequest(() => Ok(boatBusiess.GetOne(boatId)));
 		}
 
-		public IHttpActionResult Post([FromBody]AddBoatForm boat)
+		/// <summary>
+		/// Create a new boat
+		/// </summary>
+		/// <param name="addBoatForm"></param>
+		/// <returns></returns>
+		public IHttpActionResult Post([FromBody]AddBoatForm addBoatForm)
 		{
-			return RunIfAuthenticated(() =>
+			return ExecuteRequest(() =>
 			{
-				try
-				{
-					return Ok(boatBusiess.CreateOne(boat));
-				}
-				catch (DbEntityValidationException)
-				{
-					return BadRequest();
-				}
+				return Ok(boatBusiess.CreateOne(addBoatForm));
 			});
 		}
 
+		/// <summary>
+		/// Update an existing boat
+		/// </summary>
+		/// <param name="boatId"></param>
+		/// <param name="updateBoatForm"></param>
+		/// <returns></returns>
 		public IHttpActionResult Put(Guid? boatId, [FromBody]UpdateBoatForm updateBoatForm)
 		{
-			return RunIfAuthenticated(() =>
+			return ExecuteRequest(() =>
 			{
-				if (boatBusiess.Update(boatId, updateBoatForm))
-				{
-					return Ok();
-				}
-				else
-				{
-					return NotFound();
-				}
+				boatBusiess.Update(boatId, updateBoatForm);
 			});
 		}
 
+		/// <summary>
+		/// Delete an existing boat
+		/// </summary>
+		/// <param name="boatId"></param>
+		/// <returns></returns>
 		public IHttpActionResult Delete(Guid? boatId)
 		{
-			return RunIfAuthenticated(() =>
+			return ExecuteRequest(() =>
 			{
-				if (boatBusiess.Delete(boatId))
-				{
-					return Ok();
-				}
-				else
-				{
-					return NotFound();
-				}
+				boatBusiess.Delete(boatId);
 			});
 		}
 	}

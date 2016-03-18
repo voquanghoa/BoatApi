@@ -87,12 +87,5 @@ namespace BoatApi.Business.Logic.Common
 		/// Saves the changes.
 		/// </summary>
 		void SaveChanges();
-
-		/// <summary>
-		/// Executes the procedure.
-		/// </summary>
-		/// <param name="procedureCommand">The procedure command.</param>
-		/// <param name="sqlParams">The SQL params.</param>
-		void ExecuteProcedure(String procedureCommand, params SqlParameter[] sqlParams);
 	}
 }

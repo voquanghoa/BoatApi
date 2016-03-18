@@ -1,7 +1,9 @@
 ﻿using BoatApi.Business;
 using BoatApi.Business.Logic.Common;
+using BoatApi.WebException;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web;
@@ -25,11 +27,31 @@ namespace BoatApi.Controllers.Base
 			return StatusCode(System.Net.HttpStatusCode.Unauthorized);
 		}
 
-		protected IHttpActionResult RunIfAuthenticated(Func<IHttpActionResult> action)
+		protected IHttpActionResult ExecuteRequest(Action action)
+		{
+			return ExecuteRequest(() =>
+			{
+				action();
+				return Ok();
+			});
+		}
+
+		protected IHttpActionResult ExecuteRequest(Func<IHttpActionResult> action)
 		{
 			if (authenticationBusiess.VerifyAuthenticated())
 			{
-				return action();
+				try
+				{
+					return action();
+				}
+				catch (NotFoundException)
+				{
+					return NotFound();
+				}
+				catch (DbEntityValidationException)
+				{
+					return BadRequest();
+				}
 			}
 
 			return Unauthorized();

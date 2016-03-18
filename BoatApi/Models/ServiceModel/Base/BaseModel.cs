@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BoatApi.Models.Base
+namespace BoatApi.Models.ServiceModel.Base
 {
 	public class BaseModel
 	{

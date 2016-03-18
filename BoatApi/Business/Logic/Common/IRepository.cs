@@ -64,14 +64,6 @@ namespace BoatApi.Business.Logic.Common
 		T Create(T t);
 
 		/// <summary>
-		/// Add many objects to database
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="ts"></param>
-		/// <returns></returns>
-		IEnumerable<T> CreateMany(IEnumerable<T> objects);
-
-		/// <summary>
 		/// Delete the object from database.
 		/// </summary>
 		/// <param name="t">Specified a existing object to delete.</param>

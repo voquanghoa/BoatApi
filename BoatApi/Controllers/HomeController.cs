@@ -1,4 +1,4 @@
-﻿using BoatApi.Models;
+﻿using BoatApi.Models.ServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +14,6 @@ namespace BoatApi.Controllers
 			ViewBag.Title = "Home Page";
 
 			return View();
-		}
-
-		[HttpGet]
-		[Route("getcategory")]
-		public User GetCategory()
-		{
-			return new User()
-			{
-				Id = Guid.NewGuid(),
-				UserName = "123"
-			};
 		}
 	}
 }

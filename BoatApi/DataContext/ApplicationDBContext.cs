@@ -1,4 +1,4 @@
-﻿using BoatApi.Models;
+﻿using BoatApi.Models.ServiceModel;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -7,6 +7,11 @@ namespace BoatApi.DataContext
 	public class ApplicationDBContext : DbContext
 	{
 		public DbSet<User> Users
+		{
+			set; get;
+		}
+
+		public DbSet<Authentication> Authentications
 		{
 			set; get;
 		}

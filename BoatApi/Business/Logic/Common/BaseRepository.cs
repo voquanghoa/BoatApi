@@ -1,4 +1,4 @@
-﻿using BoatApi.Models.Base;
+﻿using BoatApi.Models.ServiceModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -111,14 +111,6 @@ namespace BoatApi.Business.Logic.Common
 			UnitOfWork.DbContext.SaveChanges();
 
 			return newEntry;
-		}
-
-		public virtual IEnumerable<T> CreateMany(IEnumerable<T> objects)
-		{
-			var newEntrys = DbSet.AddRange(objects);
-			UnitOfWork.DbContext.SaveChanges();
-
-			return newEntrys;
 		}
 
 		public virtual int Delete(T TObject)

@@ -1,37 +1,30 @@
 ﻿using BoatApi.Business;
 using BoatApi.Business.Logic.Common;
-using BoatApi.Models;
+using BoatApi.Models.ServiceModel;
+using BoatApi.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
 
 namespace BoatApi.Controllers
 {
 	public class ValuesController : ApiController
 	{
-		private UserBusiness userBusiness;
 		protected IUnitOfWork unitOfWork;
 
 		public ValuesController()
 		{
 			unitOfWork = new UnitOfWork();
-			userBusiness = new UserBusiness(unitOfWork);
 		}
 		// GET api/values
 		public IEnumerable<User> Get()
 		{
-			return new List<User>()
-			{
-				new User()
-				{
-					Id = Guid.NewGuid(),
-					UserName= "Vo Quang Hoa",
-					Email = "voquanghoa@gmail.com"
-				}
-			};
+			return null;
 		}
 
 		// GET api/values/5

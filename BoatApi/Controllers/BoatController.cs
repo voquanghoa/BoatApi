@@ -14,7 +14,7 @@ namespace BoatApi.Controllers
 
 		public BoatController()
 		{
-			boatBusiess = new BoatBusiness(unitOfWork);
+			boatBusiess = new BoatBusiness(UnitOfWork);
 		}
 
 		/// <summary>
@@ -23,7 +23,7 @@ namespace BoatApi.Controllers
 		/// <returns>The list of boats</returns>
 		public IHttpActionResult Get()
 		{
-			return ExecuteRequest(() => Ok(boatBusiess.GetAll()));
+			return ExecuteAction(() => Ok(boatBusiess.GetAll()));
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace BoatApi.Controllers
 		/// <returns>The boat</returns>
 		public IHttpActionResult Get(Guid? boatId)
 		{
-			return ExecuteRequest(() => Ok(boatBusiess.GetOne(boatId)));
+			return ExecuteAction(() => Ok(boatBusiess.GetOne(boatId)));
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace BoatApi.Controllers
 		/// <returns></returns>
 		public IHttpActionResult Post([FromBody]AddBoatForm addBoatForm)
 		{
-			return ExecuteRequest(() =>
+			return ExecuteAction(() =>
 			{
 				return Ok(boatBusiess.CreateOne(addBoatForm));
 			});
@@ -57,7 +57,7 @@ namespace BoatApi.Controllers
 		/// <returns></returns>
 		public IHttpActionResult Put(Guid? boatId, [FromBody]UpdateBoatForm updateBoatForm)
 		{
-			return ExecuteRequest(() =>
+			return ExecuteAction(() =>
 			{
 				boatBusiess.Update(boatId, updateBoatForm);
 			});
@@ -70,7 +70,7 @@ namespace BoatApi.Controllers
 		/// <returns></returns>
 		public IHttpActionResult Delete(Guid? boatId)
 		{
-			return ExecuteRequest(() =>
+			return ExecuteAction(() =>
 			{
 				boatBusiess.Delete(boatId);
 			});

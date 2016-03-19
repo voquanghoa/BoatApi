@@ -27,6 +27,7 @@ namespace BoatApi.Business.Logic.Common
 		/// Find object by specified expression.
 		/// </summary>
 		/// <param name="predicate"></param>
+		/// <param name="includes"></param>
 		/// <returns></returns>
 		T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null);
 
@@ -35,17 +36,18 @@ namespace BoatApi.Business.Logic.Common
 		/// Gets objects from database by filter.
 		/// </summary>
 		/// <param name="predicate">Specified a filter</param>
+		/// <param name="includes">Includes objects</param>
 		/// <returns></returns>
 		IQueryable<T> Filter(Expression<Func<T, bool>> predicate, string[] includes = null);
 
 		/// <summary>
 		/// Gets objects from database with filting and paging.
 		/// </summary>
-		/// <typeparam name="Key"></typeparam>
 		/// <param name="filter">Specified a filter</param>
 		/// <param name="total">Returns the total records count of the filter.</param>
 		/// <param name="index">Specified the page index.</param>
 		/// <param name="size">Specified the page size</param>
+		/// <param name="includes"></param>
 		/// <returns></returns>
 		IQueryable<T> Filter(Expression<Func<T, bool>> filter, out int total, int index = 0, int size = 50, string[] includes = null);
 

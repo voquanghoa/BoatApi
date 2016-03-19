@@ -68,7 +68,7 @@ namespace BoatApi.Business.Logic.Common
 			{
 				var query = DbSet.Include(includes.First());
 
-				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
+				includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
 			}
 
 			return DbSet.FirstOrDefault(predicate);
@@ -90,7 +90,7 @@ namespace BoatApi.Business.Logic.Common
 
 		public virtual IQueryable<T> Filter(Expression<Func<T, bool>> predicate, out int total, int index = 0, int size = 50, string[] includes = null)
 		{
-			int skipCount = index * size;
+			var skipCount = index * size;
 
 			IQueryable<T> resetSet;
 
@@ -154,10 +154,7 @@ namespace BoatApi.Business.Logic.Common
 
 		public void Dispose()
 		{
-			if (UnitOfWork.DbContext != null)
-			{
-				UnitOfWork.DbContext.Dispose();
-			}
+			UnitOfWork.DbContext?.Dispose();
 		}
 	}
 }

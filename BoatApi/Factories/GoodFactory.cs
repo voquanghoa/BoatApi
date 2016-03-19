@@ -1,9 +1,5 @@
 ﻿using BoatApi.Models.Communication.Response;
 using BoatApi.Models.ServiceModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace BoatApi.Factories
 {

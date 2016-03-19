@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Transactions;
+﻿using System.Transactions;
 using System.Data.Entity;
 using BoatApi.DataContext;
 
@@ -10,7 +6,7 @@ namespace BoatApi.Business.Logic.Common
 {
 	public class UnitOfWork : IUnitOfWork
 	{
-		private TransactionScope _transaction;
+		private TransactionScope transaction;
 		public DbContext DbContext
 		{
 			get; set;
@@ -29,13 +25,13 @@ namespace BoatApi.Business.Logic.Common
 
 		public void StartTransaction()
 		{
-			_transaction = new TransactionScope();
+			transaction = new TransactionScope();
 		}
 
 		public void Commit()
 		{
 			DbContext.SaveChanges();
-			_transaction.Complete();
+			transaction.Complete();
 		}
 	}
 }

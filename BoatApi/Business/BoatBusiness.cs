@@ -10,7 +10,7 @@ namespace BoatApi.Business
 {
 	public class BoatBusiness
 	{
-		private BaseRepository<Boat> boatRepository;
+		private readonly BaseRepository<Boat> boatRepository;
 
 		public BoatBusiness(IUnitOfWork unitOfWork)
 		{

@@ -24,6 +24,17 @@ namespace BoatApi.Business
 			userRepository = new UserRepository(unitOfWork);
 		}
 
+		public void Logout()
+		{
+			var sessonHashCookie = CookieUtil.GetCookie(SessonHashCookieName);
+			if (sessonHashCookie != null)
+			{
+				var sessonGuid = Guid.Parse(sessonHashCookie);
+				authenticationRepository.Delete(x => x.SessionHash == sessonGuid);
+				CookieUtil.ClearCookie();
+			}
+		}
+
 		public bool Authenticate(LoginForm loginForm)
 		{
 			var user = userRepository.FindUser(loginForm.Email, loginForm.Password);

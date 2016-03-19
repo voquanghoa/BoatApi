@@ -1,17 +1,24 @@
 ﻿using BoatApi.Business;
 using BoatApi.Controllers.Base;
 using BoatApi.Models.Communication.Request;
-using BoatApi.Models.ServiceModel;
 using System;
-using System.Data.Entity.Validation;
+using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Description;
+using BoatApi.Models.ServiceModel;
 
 namespace BoatApi.Controllers
 {
+	/// <summary>
+	/// Boat controller
+	/// </summary>
 	public class BoatController : BaseController
 	{
 		private readonly BoatBusiness boatBusiess;
 
+		/// <summary>
+		/// The empty contructor
+		/// </summary>
 		public BoatController()
 		{
 			boatBusiess = new BoatBusiness(UnitOfWork);
@@ -21,6 +28,7 @@ namespace BoatApi.Controllers
 		/// Get the list of boats
 		/// </summary>
 		/// <returns>The list of boats</returns>
+		[ResponseType(typeof (IEnumerable<Boat>))]
 		public IHttpActionResult Get()
 		{
 			return ExecuteAction(() => Ok(boatBusiess.GetAll()));
@@ -31,6 +39,7 @@ namespace BoatApi.Controllers
 		/// </summary>
 		/// <param name="boatId">The id of boat</param>
 		/// <returns>The boat</returns>
+		[ResponseType(typeof(Boat))]
 		public IHttpActionResult Get(Guid? boatId)
 		{
 			return ExecuteAction(() => Ok(boatBusiess.GetOne(boatId)));
@@ -41,12 +50,10 @@ namespace BoatApi.Controllers
 		/// </summary>
 		/// <param name="addBoatForm"></param>
 		/// <returns></returns>
+		[ResponseType(typeof(Guid))]
 		public IHttpActionResult Post([FromBody]AddBoatForm addBoatForm)
 		{
-			return ExecuteAction(() =>
-			{
-				return Ok(boatBusiess.CreateOne(addBoatForm));
-			});
+			return ExecuteAction(() => Ok(boatBusiess.CreateOne(addBoatForm)));
 		}
 
 		/// <summary>
@@ -57,10 +64,7 @@ namespace BoatApi.Controllers
 		/// <returns></returns>
 		public IHttpActionResult Put(Guid? boatId, [FromBody]UpdateBoatForm updateBoatForm)
 		{
-			return ExecuteAction(() =>
-			{
-				boatBusiess.Update(boatId, updateBoatForm);
-			});
+			return ExecuteAction(() => boatBusiess.Update(boatId, updateBoatForm));
 		}
 
 		/// <summary>
@@ -70,10 +74,7 @@ namespace BoatApi.Controllers
 		/// <returns></returns>
 		public IHttpActionResult Delete(Guid? boatId)
 		{
-			return ExecuteAction(() =>
-			{
-				boatBusiess.Delete(boatId);
-			});
+			return ExecuteAction(() => boatBusiess.Delete(boatId));
 		}
 	}
 }

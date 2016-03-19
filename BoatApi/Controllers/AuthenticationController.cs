@@ -36,10 +36,7 @@ namespace BoatApi.Controllers
 		/// <returns>The response</returns>
 		public IHttpActionResult Delete()
 		{
-			return ExecuteAction(() =>
-			{
-				AuthenticationBusiess.Logout();
-			});
+			return ExecuteAction(() => AuthenticationBusiess.Logout());
 		}
 	}
 }

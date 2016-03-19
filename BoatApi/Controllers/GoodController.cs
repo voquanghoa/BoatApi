@@ -2,16 +2,22 @@
 using BoatApi.Controllers.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
+using BoatApi.Models.ServiceModel;
 
 namespace BoatApi.Controllers
 {
+	/// <summary>
+	/// Good controller
+	/// </summary>
 	public class GoodController : BaseController
 	{
 		private readonly GoodBusiness goodBusiness;
 
+		/// <summary>
+		/// The empty controller
+		/// </summary>
 		public GoodController()
 		{
 			goodBusiness = new GoodBusiness(UnitOfWork);
@@ -23,10 +29,7 @@ namespace BoatApi.Controllers
 		/// <returns>The list of good</returns>
 		public IHttpActionResult Get()
 		{
-			return ExecuteAction(() =>
-			{
-				return Ok(goodBusiness.GetAll());
-			});
+			return ExecuteAction(() => Ok(goodBusiness.GetAll()));
 		}
 
 		/// <summary>
@@ -36,12 +39,10 @@ namespace BoatApi.Controllers
 		/// <returns>The list of good contained in a boat</returns>
 		[HttpGet]
 		[Route("api/good/byboat")]
+		[ResponseType(typeof(IEnumerable<Good>))]
 		public IHttpActionResult GetByBoat(Guid? id)
 		{
-			return ExecuteAction(() =>
-			{
-				return Ok(goodBusiness.GetByBoat(id));
-			});
+			return ExecuteAction(() => Ok(goodBusiness.GetByBoat(id)));
 		}
 	}
 }

@@ -61,7 +61,7 @@ namespace BoatApi.Controllers
 		/// </summary>
 		/// <param name="boatId"></param>
 		/// <param name="updateBoatForm"></param>
-		/// <returns></returns>
+		/// <returns>The status code is 200 if success</returns>
 		public IHttpActionResult Put(Guid? boatId, [FromBody]UpdateBoatForm updateBoatForm)
 		{
 			return ExecuteAction(() => boatBusiess.Update(boatId, updateBoatForm));
@@ -70,8 +70,8 @@ namespace BoatApi.Controllers
 		/// <summary>
 		/// Delete an existing boat
 		/// </summary>
-		/// <param name="boatId"></param>
-		/// <returns></returns>
+		/// <param name="boatId">Id of the boat</param>
+		/// <returns>The status code is 200 if success</returns>
 		public IHttpActionResult Delete(Guid? boatId)
 		{
 			return ExecuteAction(() => boatBusiess.Delete(boatId));

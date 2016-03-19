@@ -4,13 +4,13 @@ using BoatApi.Models.Communication.Request;
 using BoatApi.Models.ServiceModel;
 using BoatApi.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
+using BoatApi.WebException;
 
 namespace BoatApi.Business
 {
+	/// <summary>
+	/// The business layer class to manage user
+	/// </summary>
 	public class AuthenticationBusiness
 	{
 		private const string SessonHashCookieName = "SESSONHASH";
@@ -18,12 +18,19 @@ namespace BoatApi.Business
 		private readonly UserRepository userRepository;
 		private readonly BaseRepository<Authentication> authenticationRepository;
 
+		/// <summary>
+		/// Contructor with the unitOfWork
+		/// </summary>
+		/// <param name="unitOfWork">The object unitOfWork</param>
 		public AuthenticationBusiness(IUnitOfWork unitOfWork)
 		{
 			authenticationRepository = new BaseRepository<Authentication>(unitOfWork);
 			userRepository = new UserRepository(unitOfWork);
 		}
 
+		/// <summary>
+		/// Logout the current logged user
+		/// </summary>
 		public void Logout()
 		{
 			var sessonHashCookie = CookieUtil.GetCookie(SessonHashCookieName);
@@ -35,13 +42,17 @@ namespace BoatApi.Business
 			}
 		}
 
-		public bool Authenticate(LoginForm loginForm)
+		/// <summary>
+		/// Authenticate user with email and password in a form
+		/// </summary>
+		/// <param name="loginForm">The form contains email/password</param>
+		public void Authenticate(LoginForm loginForm)
 		{
 			var user = userRepository.FindUser(loginForm.Email, loginForm.Password);
 
 			if (user == null)
 			{
-				return false;
+				throw  new NotFoundException();
 			}
 
 			var authentication = new Authentication()
@@ -53,23 +64,30 @@ namespace BoatApi.Business
 
 			CookieUtil.SetCookie(SessonHashCookieName, authentication.SessionHash.ToString());
 			authenticationRepository.Create(authentication);
-
-			return true;
 		}
 
-		public bool VerifyAuthenticated()
+		private User GetCurrentLoggedInUser()
 		{
 			var sessonHashCookie = CookieUtil.GetCookie(SessonHashCookieName);
 			if (sessonHashCookie != null)
 			{
 				var sessonGuid = Guid.Parse(sessonHashCookie);
-				if (authenticationRepository.Contains(x => x.SessionHash == sessonGuid))
+				var sesson = authenticationRepository.FindOne(x => x.SessionHash == sessonGuid,new []{"User"});
+				if (sesson != null)
 				{
-					return true;
+					return sesson.User;
 				}
 			}
+			return null;
+		}
 
-			return false;
+		/// <summary>
+		/// Check user logged in or not
+		/// </summary>
+		/// <returns>true if user logged in, otherwise, return false</returns>
+		public bool IsUserLoggedIn()
+		{
+			return GetCurrentLoggedInUser() != null;
 		}
 	}
 }

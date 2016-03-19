@@ -9,6 +9,9 @@ using BoatApi.WebException;
 
 namespace BoatApi.Business
 {
+	/// <summary>
+	/// The business layer class to manage good
+	/// </summary>
 	public class GoodBusiness
 	{
 		private readonly GoodFactory goodFactory;
@@ -16,6 +19,10 @@ namespace BoatApi.Business
 		private readonly BaseRepository<Boat> boatRepository;
 		private readonly BaseRepository<Good> goodRepository;
 
+		/// <summary>
+		/// Contructor with the unitOfWork
+		/// </summary>
+		/// <param name="unitOfWork">The object unitOfWork</param>
 		public GoodBusiness(IUnitOfWork unitOfWork)
 		{
 			goodFactory = new GoodFactory();
@@ -37,8 +44,8 @@ namespace BoatApi.Business
 		/// <summary>
 		/// Get all goods contained in a boat
 		/// </summary>
-		/// <param name="boatId"></param>
-		/// <returns></returns>
+		/// <param name="boatId">Id of the boat</param>
+		/// <returns>The list of good contained in the boat</returns>
 		public IEnumerable<GoodDTO> GetByBoat(Guid? boatId)
 		{
 			var boat = boatRepository.FindOne(boatId);

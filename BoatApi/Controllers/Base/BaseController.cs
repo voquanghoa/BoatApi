@@ -42,7 +42,7 @@ namespace BoatApi.Controllers.Base
 		/// <returns></returns>
 		protected IHttpActionResult ExecuteAction(Func<IHttpActionResult> action)
 		{
-			if (AuthenticationBusiess.VerifyAuthenticated())
+			if (AuthenticationBusiess.IsUserLoggedIn())
 			{
 				try
 				{

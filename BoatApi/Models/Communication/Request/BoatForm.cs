@@ -3,15 +3,15 @@
 namespace BoatApi.Models.Communication.Request
 {
 	[DataContract]
-	public class AddBoatForm
+	public class BoatForm
 	{
-		[DataMember(Name = "name", IsRequired = true)]
+		[DataMember(Name = "name")]
 		public string Name
 		{
 			get; set;
 		}
 
-		[DataMember(Name = "imageUrl", IsRequired = true)]
+		[DataMember(Name = "imageUrl")]
 		public string ImageUrl
 		{
 			get; set;

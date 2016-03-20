@@ -213,9 +213,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Communication\Request\AddBoatForm.cs" />
+    <Compile Include="Models\Communication\Request\BoatForm.cs" />
+    <Compile Include="Models\Communication\Request\GoodForm.cs" />
     <Compile Include="Models\Communication\Request\LoginForm.cs" />
-    <Compile Include="Models\Communication\Request\UpdateBoatForm.cs" />
     <Compile Include="Models\Communication\Response\GoodDTO.cs" />
     <Compile Include="Models\ServiceModel\Authentication.cs" />
     <Compile Include="Models\ServiceModel\Base\BaseModel.cs" />

@@ -51,7 +51,7 @@ namespace BoatApi.Controllers
 		/// <param name="addBoatForm"></param>
 		/// <returns></returns>
 		[ResponseType(typeof(Guid))]
-		public IHttpActionResult Post([FromBody]AddBoatForm addBoatForm)
+		public IHttpActionResult Post([FromBody]BoatForm addBoatForm)
 		{
 			return ExecuteAction(() => Ok(boatBusiess.CreateOne(addBoatForm)));
 		}
@@ -62,7 +62,7 @@ namespace BoatApi.Controllers
 		/// <param name="boatId"></param>
 		/// <param name="updateBoatForm"></param>
 		/// <returns>The status code is 200 if success</returns>
-		public IHttpActionResult Put(Guid? boatId, [FromBody]UpdateBoatForm updateBoatForm)
+		public IHttpActionResult Put(Guid? boatId, [FromBody]BoatForm updateBoatForm)
 		{
 			return ExecuteAction(() => boatBusiess.Update(boatId, updateBoatForm));
 		}

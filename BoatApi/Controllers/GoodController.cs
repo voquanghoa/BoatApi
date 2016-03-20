@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using BoatApi.Models.Communication.Request;
 using BoatApi.Models.ServiceModel;
 
 namespace BoatApi.Controllers
@@ -43,6 +44,27 @@ namespace BoatApi.Controllers
 		public IHttpActionResult GetByBoat(Guid? id)
 		{
 			return ExecuteAction(() => Ok(goodBusiness.GetByBoat(id)));
+		}
+
+		/// <summary>
+		/// Create new a good record
+		/// </summary>
+		/// <param name="addGoodForm">The form contains the good's information</param>
+		/// <returns>Guid of the new good</returns>
+		[ResponseType(typeof(Guid))]
+		public IHttpActionResult Post([FromBody]GoodForm addGoodForm)
+		{
+			return ExecuteAction(() => Ok(goodBusiness.CreateOne(addGoodForm)));
+		}
+
+		/// <summary>
+		/// Delete an existing good record
+		/// </summary>
+		/// <param name="goodId">Id of the good record</param>
+		/// <returns>The status code is 200 if success</returns>
+		public IHttpActionResult Delete(Guid? goodId)
+		{
+			return ExecuteAction(() => goodBusiness.Delete(goodId));
 		}
 	}
 }

@@ -68,7 +68,9 @@ namespace BoatApi.Business.Logic.Common
 			{
 				var query = DbSet.Include(includes.First());
 
-				includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
+				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
+
+				return query.FirstOrDefault(predicate);
 			}
 
 			return DbSet.FirstOrDefault(predicate);

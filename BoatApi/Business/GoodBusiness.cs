@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BoatApi.Business.Logic.Common;
 using BoatApi.Factories;
+using BoatApi.Models.Communication.Request;
 using BoatApi.Models.Communication.Response;
 using BoatApi.Models.ServiceModel;
 using BoatApi.WebException;
@@ -55,9 +56,42 @@ namespace BoatApi.Business
 				throw new NotFoundException();
 			}
 
-			var goods = goodRepository.Filter(x => x.Boat == boat).ToList();
+			var goods = goodRepository.Filter(x => x.Boat.Id == boat.Id).ToList();
 
 			return goods.Select(x => goodFactory.CreateGoodDTO(x)).ToList();
+		}
+
+		/// <summary>
+		/// Create a new Good
+		/// </summary>
+		/// <param name="addBoatForm">The form contains the new good's information</param>
+		/// <returns>Guid of the new good</returns>
+		public Guid CreateOne(GoodForm addBoatForm)
+		{
+			var boat = boatRepository.FindOne(addBoatForm.BoatId);
+
+			if (boat == null)
+			{
+				throw new NotFoundException();
+			}
+
+			var good = goodFactory.CreateGood(addBoatForm);
+
+			good.Boat = boat;
+
+			return goodRepository.Create(good).Id;
+		}
+
+		/// <summary>
+		/// Delete a good record from database
+		/// </summary>
+		/// <param name="goodId">id of the good</param>
+		public void Delete(Guid? goodId)
+		{
+			if (goodRepository.Delete(x => x.Id == goodId) == 0)
+			{
+				throw new NotFoundException();
+			}
 		}
 	}
 }

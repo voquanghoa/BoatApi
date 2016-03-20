@@ -481,6 +481,92 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:BoatApi.Business.AuthenticationBusiness">
+            <summary>
+            The business layer class to manage user
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.AuthenticationBusiness.#ctor(BoatApi.Business.Logic.Common.IUnitOfWork)">
+            <summary>
+            Contructor with the unitOfWork
+            </summary>
+            <param name="unitOfWork">The object unitOfWork</param>
+        </member>
+        <member name="M:BoatApi.Business.AuthenticationBusiness.Logout">
+            <summary>
+            Logout the current logged user
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.AuthenticationBusiness.Authenticate(BoatApi.Models.Communication.Request.LoginForm)">
+            <summary>
+            Authenticate user with email and password in a form
+            </summary>
+            <param name="loginForm">The form contains email/password</param>
+        </member>
+        <member name="M:BoatApi.Business.AuthenticationBusiness.IsUserLoggedIn">
+            <summary>
+            Check user logged in or not
+            </summary>
+            <returns>true if user logged in, otherwise, return false</returns>
+        </member>
+        <member name="T:BoatApi.Business.BoatBusiness">
+            <summary>
+            The business layer class to manage boat
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.#ctor(BoatApi.Business.Logic.Common.IUnitOfWork)">
+            <summary>
+            Contructor with the unitOfWork
+            </summary>
+            <param name="unitOfWork">The object unitOfWork</param>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.GetAll">
+            <summary>
+            Get all boats
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.GetOne(System.Nullable{System.Guid})">
+            <summary>
+            Find a boat by id
+            </summary>
+            <param name="boatId">The boat id</param>
+            <returns>The boat if found</returns>
+            <exception cref="T:BoatApi.WebException.NotFoundException">If the databse does not contain any boat with the given id</exception>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.CreateOne(BoatApi.Models.Communication.Request.BoatForm)">
+            <summary>
+            Create a new boat and save to database
+            </summary>
+            <param name="addBoatForm">The form contains boat's information</param>
+            <returns>Id of the new boat</returns>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.Delete(System.Nullable{System.Guid})">
+            <summary>
+            Delete an existing boat with id
+            </summary>
+            <param name="boatId">Id of the boat</param>
+            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+        </member>
+        <member name="M:BoatApi.Business.BoatBusiness.Update(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.BoatForm)">
+            <summary>
+            Update information of an existing boat
+            </summary>
+            <param name="boatId">Id of the boat</param>
+            <param name="updateBoatForm">The form contains boat's information</param>
+            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+        </member>
+        <member name="T:BoatApi.Business.GoodBusiness">
+            <summary>
+            The business layer class to manage good
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.GoodBusiness.#ctor(BoatApi.Business.Logic.Common.IUnitOfWork)">
+            <summary>
+            Contructor with the unitOfWork
+            </summary>
+            <param name="unitOfWork">The object unitOfWork</param>
+        </member>
         <member name="M:BoatApi.Business.GoodBusiness.GetAll">
             <summary>
             Get all good
@@ -491,8 +577,21 @@
             <summary>
             Get all goods contained in a boat
             </summary>
-            <param name="boatId"></param>
-            <returns></returns>
+            <param name="boatId">Id of the boat</param>
+            <returns>The list of good contained in the boat</returns>
+        </member>
+        <member name="M:BoatApi.Business.GoodBusiness.CreateOne(BoatApi.Models.Communication.Request.GoodForm)">
+            <summary>
+            Create a new Good
+            </summary>
+            <param name="addBoatForm">The form contains the new good's information</param>
+            <returns>Guid of the new good</returns>
+        </member>
+        <member name="M:BoatApi.Business.GoodBusiness.Delete(System.Nullable{System.Guid})">
+            <summary>
+            Delete a good record from database
+            </summary>
+            <param name="goodId">id of the good</param>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.All(System.String[])">
             <summary>
@@ -589,19 +688,24 @@
             Starts a transaction on this unit of work
             </summary>
         </member>
+        <member name="T:BoatApi.Controllers.AuthenticationController">
+            <summary>
+            Authentication Controller
+            </summary>
+        </member>
         <member name="M:BoatApi.Controllers.AuthenticationController.Post(BoatApi.Models.Communication.Request.LoginForm)">
             <summary>
-            Login with email/password, both email and password will be stored in server. Can be changed this behavior.
+            Login with email/password, both email and password will be stored in server.
             We allow multiple login with an account
             </summary>
             <param name="loginForm">Login form, with email/password</param>
-            <returns>The response</returns>
+            <returns>The status code is 200 if success, 401 if failed</returns>
         </member>
         <member name="M:BoatApi.Controllers.AuthenticationController.Delete">
             <summary>
             Logout
             </summary>
-            <returns>The response</returns>
+            <returns>The status code is 200 if success, 401 if failed</returns>
         </member>
         <member name="M:BoatApi.Controllers.Base.BaseController.#ctor">
             <summary>
@@ -645,27 +749,32 @@
             <param name="boatId">The id of boat</param>
             <returns>The boat</returns>
         </member>
-        <member name="M:BoatApi.Controllers.BoatController.Post(BoatApi.Models.Communication.Request.AddBoatForm)">
+        <member name="M:BoatApi.Controllers.BoatController.Post(BoatApi.Models.Communication.Request.BoatForm)">
             <summary>
             Create a new boat
             </summary>
             <param name="addBoatForm"></param>
             <returns></returns>
         </member>
-        <member name="M:BoatApi.Controllers.BoatController.Put(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.UpdateBoatForm)">
+        <member name="M:BoatApi.Controllers.BoatController.Put(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.BoatForm)">
             <summary>
             Update an existing boat
             </summary>
             <param name="boatId"></param>
             <param name="updateBoatForm"></param>
-            <returns></returns>
+            <returns>The status code is 200 if success</returns>
         </member>
         <member name="M:BoatApi.Controllers.BoatController.Delete(System.Nullable{System.Guid})">
             <summary>
             Delete an existing boat
             </summary>
-            <param name="boatId"></param>
-            <returns></returns>
+            <param name="boatId">Id of the boat</param>
+            <returns>The status code is 200 if success</returns>
+        </member>
+        <member name="T:BoatApi.Controllers.GoodController">
+            <summary>
+            Good controller
+            </summary>
         </member>
         <member name="M:BoatApi.Controllers.GoodController.#ctor">
             <summary>
@@ -684,6 +793,39 @@
             </summary>
             <param name="id">The boat's id</param>
             <returns>The list of good contained in a boat</returns>
+        </member>
+        <member name="M:BoatApi.Controllers.GoodController.Post(BoatApi.Models.Communication.Request.GoodForm)">
+            <summary>
+            Create new a good record
+            </summary>
+            <param name="addGoodForm">The form contains the good's information</param>
+            <returns>Guid of the new good</returns>
+        </member>
+        <member name="M:BoatApi.Controllers.GoodController.Delete(System.Nullable{System.Guid})">
+            <summary>
+            Delete an existing good record
+            </summary>
+            <param name="goodId">Id of the good record</param>
+            <returns>The status code is 200 if success</returns>
+        </member>
+        <member name="T:BoatApi.Factories.GoodFactory">
+            <summary>
+            Factory for good
+            </summary>
+        </member>
+        <member name="M:BoatApi.Factories.GoodFactory.CreateGoodDTO(BoatApi.Models.ServiceModel.Good)">
+            <summary>
+            Convert a good from the database to a good object DTO
+            </summary>
+            <param name="good">The good object from the database</param>
+            <returns>The good DTO object</returns>
+        </member>
+        <member name="M:BoatApi.Factories.GoodFactory.CreateGood(BoatApi.Models.Communication.Request.GoodForm)">
+            <summary>
+            Create a good object
+            </summary>
+            <param name="addGoodForm">The form contains good's information</param>
+            <returns>The created good object</returns>
         </member>
         <member name="M:BoatApi.Utils.CookieUtil.SetCookie(System.String,System.String)">
             <summary>

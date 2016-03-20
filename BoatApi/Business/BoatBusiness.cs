@@ -55,7 +55,7 @@ namespace BoatApi.Business
 		/// </summary>
 		/// <param name="addBoatForm">The form contains boat's information</param>
 		/// <returns>Id of the new boat</returns>
-		public Guid CreateOne(AddBoatForm addBoatForm)
+		public Guid CreateOne(BoatForm addBoatForm)
 		{
 			var newBoat = boatRepository.Create(new Boat()
 			{
@@ -86,7 +86,7 @@ namespace BoatApi.Business
 		/// <param name="boatId">Id of the boat</param>
 		/// <param name="updateBoatForm">The form contains boat's information</param>
 		/// <exception cref="NotFoundException">If not found</exception>
-		public void Update(Guid? boatId, UpdateBoatForm updateBoatForm)
+		public void Update(Guid? boatId, BoatForm updateBoatForm)
 		{
 			var boat = boatRepository.FindOne(x=>x.Id == boatId);
 

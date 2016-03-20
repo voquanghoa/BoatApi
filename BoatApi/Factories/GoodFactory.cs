@@ -1,4 +1,6 @@
-﻿using BoatApi.Models.Communication.Response;
+﻿using System;
+using BoatApi.Models.Communication.Request;
+using BoatApi.Models.Communication.Response;
 using BoatApi.Models.ServiceModel;
 
 namespace BoatApi.Factories
@@ -13,7 +15,6 @@ namespace BoatApi.Factories
 		/// </summary>
 		/// <param name="good">The good object from the database</param>
 		/// <returns>The good DTO object</returns>
-		// ReSharper disable once InconsistentNaming
 		public GoodDTO CreateGoodDTO(Good good)
 		{
 			return new GoodDTO()
@@ -21,6 +22,21 @@ namespace BoatApi.Factories
 				Id = good.Id,
 				ImageUrl = good.ImageUrl,
 				Quanlity = (int)good.Quality
+			};
+		}
+
+		/// <summary>
+		/// Create a good object
+		/// </summary>
+		/// <param name="addGoodForm">The form contains good's information</param>
+		/// <returns>The created good object</returns>
+		public Good CreateGood(GoodForm addGoodForm)
+		{
+			return new Good()
+			{
+				Id = Guid.NewGuid(),
+				ImageUrl = addGoodForm.ImageUrl,
+				Quality = (Quality)addGoodForm.Quality
 			};
 		}
 	}

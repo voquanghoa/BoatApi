@@ -593,6 +593,22 @@
             </summary>
             <param name="goodId">id of the good</param>
         </member>
+        <member name="M:BoatApi.Business.GoodBusiness.Update(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.GoodForm)">
+            <summary>
+            Update information of an existing Good
+            </summary>
+            <param name="goodId">The id of good</param>
+            <param name="goodForm">The form contains good's information</param>
+            <exception cref="T:BoatApi.WebException.NotFoundException">When we can not found the good or the new boat</exception>
+        </member>
+        <member name="M:BoatApi.Business.GoodBusiness.GetOne(System.Nullable{System.Guid})">
+            <summary>
+            Get a good record by id
+            </summary>
+            <param name="goodId">Id of the record</param>
+            <returns>The good record</returns>
+            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+        </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.All(System.String[])">
             <summary>
             Gets all objects from database
@@ -808,6 +824,21 @@
             <param name="goodId">Id of the good record</param>
             <returns>The status code is 200 if success</returns>
         </member>
+        <member name="M:BoatApi.Controllers.GoodController.Put(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.GoodForm)">
+            <summary>
+            Update information of an existing Good
+            </summary>
+            <param name="goodId">Id of the Good</param>
+            <param name="updateGoodForm">The form contains Good's information</param>
+            <returns>The status code is 200 if success</returns>
+        </member>
+        <member name="M:BoatApi.Controllers.GoodController.Get(System.Nullable{System.Guid})">
+            <summary>
+            Get a good by a specific id
+            </summary>
+            <param name="goodId">The id of good</param>
+            <returns>The record found</returns>
+        </member>
         <member name="T:BoatApi.Factories.GoodFactory">
             <summary>
             Factory for good
@@ -826,6 +857,31 @@
             </summary>
             <param name="addGoodForm">The form contains good's information</param>
             <returns>The created good object</returns>
+        </member>
+        <member name="T:BoatApi.Models.Communication.Request.GoodForm">
+            <summary>
+            The form contains good's information when we update or create a Good record
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.GoodForm.BoatId">
+            <summary>
+            Id of the boat contains good
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.GoodForm.Name">
+            <summary>
+            Name of good
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.GoodForm.ImageUrl">
+            <summary>
+            The url to good's photo
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.GoodForm.Quality">
+            <summary>
+            The quality of good
+            </summary>
         </member>
         <member name="M:BoatApi.Utils.CookieUtil.SetCookie(System.String,System.String)">
             <summary>

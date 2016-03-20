@@ -66,5 +66,27 @@ namespace BoatApi.Controllers
 		{
 			return ExecuteAction(() => goodBusiness.Delete(goodId));
 		}
+
+		/// <summary>
+		/// Update information of an existing Good
+		/// </summary>
+		/// <param name="goodId">Id of the Good</param>
+		/// <param name="updateGoodForm">The form contains Good's information</param>
+		/// <returns>The status code is 200 if success</returns>
+		public IHttpActionResult Put(Guid? goodId, [FromBody]GoodForm updateGoodForm)
+		{
+			return ExecuteAction(() => goodBusiness.Update(goodId, updateGoodForm));
+		}
+
+		/// <summary>
+		/// Get a good by a specific id
+		/// </summary>
+		/// <param name="goodId">The id of good</param>
+		/// <returns>The record found</returns>
+		[ResponseType(typeof(Good))]
+		public IHttpActionResult Get(Guid? goodId)
+		{
+			return ExecuteAction(() => Ok(goodBusiness.GetOne(goodId)));
+		}
 	}
 }

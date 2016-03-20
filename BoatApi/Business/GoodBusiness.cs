@@ -93,5 +93,54 @@ namespace BoatApi.Business
 				throw new NotFoundException();
 			}
 		}
+
+		/// <summary>
+		/// Update information of an existing Good
+		/// </summary>
+		/// <param name="goodId">The id of good</param>
+		/// <param name="goodForm">The form contains good's information</param>
+		/// <exception cref="NotFoundException">When we can not found the good or the new boat</exception>
+		public void Update(Guid? goodId, GoodForm goodForm)
+		{
+			var good = goodRepository.FindOne(x => x.Id == goodId, new [] {"Boat"});
+
+			if (good == null)
+			{
+				throw new NotFoundException();
+			}
+
+			good.Quality = (Quality)goodForm.Quality;
+			good.ImageUrl = goodForm.ImageUrl;
+
+			if (good.Boat.Id != goodForm.BoatId)
+			{
+				var newBoat = boatRepository.FindOne(goodForm.BoatId);
+				if (newBoat == null)
+				{
+					throw new NotFoundException();
+				}
+				good.Boat = newBoat;
+			}
+
+			goodRepository.Update(good);
+		}
+
+		/// <summary>
+		/// Get a good record by id
+		/// </summary>
+		/// <param name="goodId">Id of the record</param>
+		/// <returns>The good record</returns>
+		/// <exception cref="NotFoundException">If not found</exception>
+		public Good GetOne(Guid? goodId)
+		{
+			var good = goodRepository.FindOne(goodId);
+
+			if (goodId == null)
+			{
+				throw new NotFoundException();
+			}
+
+			return good;
+		}
 	}
 }

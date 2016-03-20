@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BoatApi.Models.Communication.Request;
+using BoatApi.Models.Communication.Response;
 using BoatApi.Models.ServiceModel;
 
 namespace BoatApi.Controllers
@@ -28,6 +29,7 @@ namespace BoatApi.Controllers
 		/// Get the list of good
 		/// </summary>
 		/// <returns>The list of good</returns>
+		[ResponseType(typeof(IEnumerable<GoodDTO>))]
 		public IHttpActionResult Get()
 		{
 			return ExecuteAction(() => Ok(goodBusiness.GetAll()));
@@ -40,7 +42,7 @@ namespace BoatApi.Controllers
 		/// <returns>The list of good contained in a boat</returns>
 		[HttpGet]
 		[Route("api/good/byboat")]
-		[ResponseType(typeof(IEnumerable<Good>))]
+		[ResponseType(typeof(IEnumerable<GoodDTO>))]
 		public IHttpActionResult GetByBoat(Guid? id)
 		{
 			return ExecuteAction(() => Ok(goodBusiness.GetByBoat(id)));
@@ -83,7 +85,7 @@ namespace BoatApi.Controllers
 		/// </summary>
 		/// <param name="goodId">The id of good</param>
 		/// <returns>The record found</returns>
-		[ResponseType(typeof(Good))]
+		[ResponseType(typeof(GoodDTO))]
 		public IHttpActionResult Get(Guid? goodId)
 		{
 			return ExecuteAction(() => Ok(goodBusiness.GetOne(goodId)));

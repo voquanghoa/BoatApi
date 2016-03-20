@@ -214,7 +214,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -311,8 +310,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
-    <Content Include="apiapp.json" />
     <None Include="Properties\PublishProfiles\BoatApiTesting%28QuangHoa%29.pubxml" />
     <None Include="Properties\PublishProfiles\Hoa.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

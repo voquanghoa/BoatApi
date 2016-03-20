@@ -1,9 +1,7 @@
-﻿using BoatApi.Business;
-using BoatApi.Controllers.Base;
+﻿using BoatApi.Controllers.Base;
 using BoatApi.Models.Communication.Request;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using BoatApi.WebException;
 

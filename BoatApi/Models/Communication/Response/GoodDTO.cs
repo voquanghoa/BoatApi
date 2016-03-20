@@ -1,26 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
+using BoatApi.Models.Common;
 
 namespace BoatApi.Models.Communication.Response
 {
+	/// <summary>
+	/// Good model
+	/// </summary>
 	[DataContract]
 	public class GoodDTO
 	{
+		/// <summary>
+		/// The id from database
+		/// </summary>
 		[DataMember(Name = "id")]
 		public Guid Id
 		{
 			get; set;
 		}
 
+		/// <summary>
+		/// The quality of good
+		/// </summary>
 		[DataMember(Name = "quanlity")]
-		public int Quanlity
+		public Quality Quanlity
 		{
 			get; set;
 		}
 
+		/// <summary>
+		/// Url to the image
+		/// </summary>
 		[DataMember(Name = "imageUrl")]
 		public string ImageUrl
 		{

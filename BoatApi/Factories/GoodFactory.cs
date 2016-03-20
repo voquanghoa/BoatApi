@@ -21,7 +21,7 @@ namespace BoatApi.Factories
 			{
 				Id = good.Id,
 				ImageUrl = good.ImageUrl,
-				Quanlity = (int)good.Quality
+				Quanlity = good.Quality
 			};
 		}
 
@@ -36,7 +36,7 @@ namespace BoatApi.Factories
 			{
 				Id = Guid.NewGuid(),
 				ImageUrl = addGoodForm.ImageUrl,
-				Quality = (Quality)addGoodForm.Quality
+				Quality = addGoodForm.Quality
 			};
 		}
 	}

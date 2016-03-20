@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using BoatApi.Models.Common;
 
 namespace BoatApi.Models.Communication.Request
 {
@@ -31,8 +31,7 @@ namespace BoatApi.Models.Communication.Request
 		/// <summary>
 		/// The quality of good
 		/// </summary>
-		[Range(-1, 4)]
 		[DataMember(Name = "quality", IsRequired = true)]
-		public int Quality {get; set; }
+		public Quality Quality {get; set; }
 	}
 }

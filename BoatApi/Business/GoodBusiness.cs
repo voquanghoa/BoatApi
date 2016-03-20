@@ -109,7 +109,7 @@ namespace BoatApi.Business
 				throw new NotFoundException();
 			}
 
-			good.Quality = (Quality)goodForm.Quality;
+			good.Quality = goodForm.Quality;
 			good.ImageUrl = goodForm.ImageUrl;
 
 			if (good.Boat.Id != goodForm.BoatId)

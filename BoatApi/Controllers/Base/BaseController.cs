@@ -7,6 +7,9 @@ using System.Web.Http;
 
 namespace BoatApi.Controllers.Base
 {
+	/// <summary>
+	/// Base controller
+	/// </summary>
 	public class BaseController : ApiController
 	{
 		protected readonly IUnitOfWork UnitOfWork;
@@ -57,7 +60,6 @@ namespace BoatApi.Controllers.Base
 					return BadRequest();
 				}
 			}
-
 			return StatusCode(System.Net.HttpStatusCode.Unauthorized);
 		}
 	}

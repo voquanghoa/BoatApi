@@ -723,6 +723,11 @@
             </summary>
             <returns>The status code is 200 if success, 401 if failed</returns>
         </member>
+        <member name="T:BoatApi.Controllers.Base.BaseController">
+            <summary>
+            Base controller
+            </summary>
+        </member>
         <member name="M:BoatApi.Controllers.Base.BaseController.#ctor">
             <summary>
             Default contructor, create unitOfWork and authenticationBusiness
@@ -858,6 +863,61 @@
             <param name="addGoodForm">The form contains good's information</param>
             <returns>The created good object</returns>
         </member>
+        <member name="T:BoatApi.Migrations.Configuration">
+            <summary>
+            The configuration for entity framework
+            </summary>
+        </member>
+        <member name="M:BoatApi.Migrations.Configuration.#ctor">
+            <summary>
+            The empty contructor
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.Common.Quality">
+            <summary>
+            The quality of good
+            </summary>
+        </member>
+        <member name="F:BoatApi.Models.Common.Quality.Unknown">
+            <summary>
+            Unknown value
+            </summary>
+        </member>
+        <member name="F:BoatApi.Models.Common.Quality.Bad">
+            <summary>
+            Bad quality
+            </summary>
+        </member>
+        <member name="F:BoatApi.Models.Common.Quality.Normal">
+            <summary>
+            Normal quality
+            </summary>
+        </member>
+        <member name="F:BoatApi.Models.Common.Quality.Good">
+            <summary>
+            Good quality
+            </summary>
+        </member>
+        <member name="F:BoatApi.Models.Common.Quality.Excellent">
+            <summary>
+            Exellent quality
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.Communication.Request.BoatForm">
+            <summary>
+            The form contains boat's information
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.BoatForm.Name">
+            <summary>
+            Boat's name
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.BoatForm.ImageUrl">
+            <summary>
+            Url to the image
+            </summary>
+        </member>
         <member name="T:BoatApi.Models.Communication.Request.GoodForm">
             <summary>
             The form contains good's information when we update or create a Good record
@@ -881,6 +941,121 @@
         <member name="P:BoatApi.Models.Communication.Request.GoodForm.Quality">
             <summary>
             The quality of good
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.Communication.Request.LoginForm">
+            <summary>
+            The form to login
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.LoginForm.Email">
+            <summary>
+            User's email
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Request.LoginForm.Password">
+            <summary>
+            User's password
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.Communication.Response.GoodDTO">
+            <summary>
+            Good model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Response.GoodDTO.Id">
+            <summary>
+            The id from database
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Response.GoodDTO.Quanlity">
+            <summary>
+            The quality of good
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.Communication.Response.GoodDTO.ImageUrl">
+            <summary>
+            Url to the image
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.ServiceModel.Authentication">
+            <summary>
+            Authentication model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Authentication.User">
+            <summary>
+            The user
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Authentication.SessionHash">
+            <summary>
+            The session hash
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.ServiceModel.Base.BaseModel">
+            <summary>
+            The base model for every model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Base.BaseModel.Id">
+            <summary>
+            The key of model
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.ServiceModel.Boat">
+            <summary>
+            The boat model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Boat.Name">
+            <summary>
+            Name of the boat
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Boat.ImageUrl">
+            <summary>
+            Url to the image
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.ServiceModel.Good">
+            <summary>
+            Good model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Good.Boat">
+            <summary>
+            The boat contains this good
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Good.Quality">
+            <summary>
+            The quality of good
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.Good.ImageUrl">
+            <summary>
+            Url to the image
+            </summary>
+        </member>
+        <member name="T:BoatApi.Models.ServiceModel.User">
+            <summary>
+            The User model
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.User.Name">
+            <summary>
+            User's fullname
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.User.Email">
+            <summary>
+            User's email
+            </summary>
+        </member>
+        <member name="P:BoatApi.Models.ServiceModel.User.Password">
+            <summary>
+            User's password
             </summary>
         </member>
         <member name="M:BoatApi.Utils.CookieUtil.SetCookie(System.String,System.String)">

@@ -2,6 +2,7 @@
 using BoatApi.Business.Logic.Common;
 using BoatApi.WebException;
 using System;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Web.Http;
 
@@ -56,6 +57,10 @@ namespace BoatApi.Controllers.Base
 					return NotFound();
 				}
 				catch (DbEntityValidationException)
+				{
+					return BadRequest();
+				}
+				catch (DbUpdateException)
 				{
 					return BadRequest();
 				}

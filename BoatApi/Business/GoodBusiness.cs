@@ -131,7 +131,7 @@ namespace BoatApi.Business
 		/// <param name="goodId">Id of the record</param>
 		/// <returns>The good record</returns>
 		/// <exception cref="RecordNotFoundException">If not found</exception>
-		public Good GetOne(Guid? goodId)
+		public GoodDTO GetOne(Guid? goodId)
 		{
 			var good = goodRepository.FindOne(goodId);
 
@@ -140,7 +140,7 @@ namespace BoatApi.Business
 				throw new RecordNotFoundException();
 			}
 
-			return good;
+			return goodFactory.CreateGoodDTO(good);
 		}
 	}
 }

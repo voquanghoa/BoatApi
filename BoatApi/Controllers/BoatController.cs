@@ -68,7 +68,7 @@ namespace BoatApi.Controllers
 		}
 
 		/// <summary>
-		/// Delete an existing boat
+		/// Delete an existing boat, the boat should not contain any good
 		/// </summary>
 		/// <param name="boatId">Id of the boat</param>
 		/// <returns>The status code is 200 if success</returns>

@@ -51,7 +51,7 @@ namespace BoatApi.Controllers.Base
 				{
 					return action();
 				}
-				catch (NotFoundException)
+				catch (RecordNotFoundException)
 				{
 					return NotFound();
 				}

@@ -532,7 +532,7 @@
             </summary>
             <param name="boatId">The boat id</param>
             <returns>The boat if found</returns>
-            <exception cref="T:BoatApi.WebException.NotFoundException">If the databse does not contain any boat with the given id</exception>
+            <exception cref="T:BoatApi.WebException.RecordNotFoundException">If the databse does not contain any boat with the given id</exception>
         </member>
         <member name="M:BoatApi.Business.BoatBusiness.CreateOne(BoatApi.Models.Communication.Request.BoatForm)">
             <summary>
@@ -546,7 +546,7 @@
             Delete an existing boat with id
             </summary>
             <param name="boatId">Id of the boat</param>
-            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+            <exception cref="T:BoatApi.WebException.RecordNotFoundException">If not found</exception>
         </member>
         <member name="M:BoatApi.Business.BoatBusiness.Update(System.Nullable{System.Guid},BoatApi.Models.Communication.Request.BoatForm)">
             <summary>
@@ -554,7 +554,7 @@
             </summary>
             <param name="boatId">Id of the boat</param>
             <param name="updateBoatForm">The form contains boat's information</param>
-            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+            <exception cref="T:BoatApi.WebException.RecordNotFoundException">If not found</exception>
         </member>
         <member name="T:BoatApi.Business.GoodBusiness">
             <summary>
@@ -599,7 +599,7 @@
             </summary>
             <param name="goodId">The id of good</param>
             <param name="goodForm">The form contains good's information</param>
-            <exception cref="T:BoatApi.WebException.NotFoundException">When we can not found the good or the new boat</exception>
+            <exception cref="T:BoatApi.WebException.RecordNotFoundException">When we can not found the good or the new boat</exception>
         </member>
         <member name="M:BoatApi.Business.GoodBusiness.GetOne(System.Nullable{System.Guid})">
             <summary>
@@ -607,55 +607,157 @@
             </summary>
             <param name="goodId">Id of the record</param>
             <returns>The good record</returns>
-            <exception cref="T:BoatApi.WebException.NotFoundException">If not found</exception>
+            <exception cref="T:BoatApi.WebException.RecordNotFoundException">If not found</exception>
+        </member>
+        <member name="T:BoatApi.Business.Logic.Common.BaseRepository`1">
+            <summary>
+            Base repository for all model (should inherit from BaseModel)
+            </summary>
+            <typeparam name="T">The class of model</typeparam>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.#ctor(BoatApi.Business.Logic.Common.IUnitOfWork)">
+            <summary>
+            Contructor with unitOfWork
+            </summary>
+            <param name="unitOfWork">UnitOfWork object</param>
+            <exception cref="T:System.ArgumentNullException">When unitOfWork is null</exception>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.GetById(System.Guid)">
+            <summary>
+            Get the object by id
+            </summary>
+            <param name="id">The object's id</param>
+            <returns>The object if found or an exception will throw if not found</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.GetAll">
+            <summary>
+            Get all object(s) from database
+            </summary>
+            <returns>The list of object(s)</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.All(System.String[])">
+            <summary>
+            Get the queryable for all object(s)
+            </summary>
+            <param name="includes">List of field's name should be included innned</param>
+            <returns>The queryable for all object(s)</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.FindOne(System.Guid)">
+            <summary>
+            Find an object by id
+            </summary>
+            <param name="id">The object's id</param>
+            <returns>The object if found or a Null object if not found</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.FindOne(System.Nullable{System.Guid})">
+            <summary>
+            Find an object by id
+            </summary>
+            <param name="id">The object's id, id can be null</param>
+            <returns>The object if found or a Null object if not found</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.FindOne(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String[])">
+            <summary>
+            Find an object by a predicate
+            </summary>
+            <param name="predicate">The predicate</param>
+            <param name="includes">The list of field's name should include</param>
+            <returns>The object if found, null if not found</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Filter(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String[])">
+            <summary>
+            Create a queryable for object(s) which match a predicate
+            </summary>
+            <param name="predicate">The predicate</param>
+            <param name="includes">The list of field's name should include</param>
+            <returns>The queryable for the given filter</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Create(`0)">
+            <summary>
+            Create a new object to database.
+            </summary>
+            <param name="TObject">Specified a new object to create.</param>
+            <returns>The created object</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Delete(`0)">
+            <summary>
+            Delete the object from database.
+            </summary>
+            <param name="TObject">Specified a existing object to delete.</param>
+            <returns>1 if success, 0 if failed</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Update(`0)">
+            <summary>
+            Update object changes and save to database.
+            </summary>
+            <param name="TObject">Specified the object to save.</param>
+            <returns>Number of effected objects</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Delete(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Delete objects from database by specified filter expression.
+            </summary>
+            <param name="predicate"></param>
+            <returns>Number of deleted objects</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Contains(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Check if we have some object(s) is exists in database by specified filter.
+            </summary>
+            <param name="predicate">Specified the filter expression</param>
+            <returns>true if the object(s) exist, false if not</returns>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.SaveChanges">
+            <summary>
+            Saves the changes.
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.BaseRepository`1.Dispose">
+            <summary>
+            Dispose the data context
+            </summary>
+        </member>
+        <member name="T:BoatApi.Business.Logic.Common.IRepository`1">
+            <summary>
+            Interface for repository
+            </summary>
+            <typeparam name="T">The database model inhenrit from BaseModel</typeparam>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.All(System.String[])">
             <summary>
             Gets all objects from database
             </summary>
-            <returns></returns>
+            <returns>The queryable of all objects</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.GetById(System.Guid)">
             <summary>
-            
+            Get the object by id
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">The object's id</param>
+            <returns>The object if found or an exception will throw if not found</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.FindOne(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String[])">
             <summary>
-            Find object by specified expression.
+            Find one object(s) by a predicate
             </summary>
-            <param name="predicate"></param>
-            <param name="includes"></param>
-            <returns></returns>
+            <param name="predicate">The predicate</param>
+            <param name="includes">The list of field's name should include</param>
+            <returns>The object if found, null if not found</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.Filter(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String[])">
             <summary>
-            Gets objects from database by filter.
+            Create a queryable for object(s) which match a predicate
             </summary>
-            <param name="predicate">Specified a filter</param>
-            <param name="includes">Includes objects</param>
-            <returns></returns>
-        </member>
-        <member name="M:BoatApi.Business.Logic.Common.IRepository`1.Filter(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32@,System.Int32,System.Int32,System.String[])">
-            <summary>
-            Gets objects from database with filting and paging.
-            </summary>
-            <param name="filter">Specified a filter</param>
-            <param name="total">Returns the total records count of the filter.</param>
-            <param name="index">Specified the page index.</param>
-            <param name="size">Specified the page size</param>
-            <param name="includes"></param>
-            <returns></returns>
+            <param name="predicate">The predicate</param>
+            <param name="includes">The list of field's name should include</param>
+            <returns>The queryable for the given filter</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.Contains(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
             <summary>
             Gets the object(s) is exists in database by specified filter.
             </summary>
             <param name="predicate">Specified the filter expression</param>
-            <returns></returns>
+            <returns>true if the object(s) exist, false if not</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.Create(`0)">
             <summary>
@@ -682,11 +784,16 @@
             Update object changes and save to database.
             </summary>
             <param name="t">Specified the object to save.</param>
-            <returns></returns>
+            <returns>Number of effected objects</returns>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IRepository`1.SaveChanges">
             <summary>
             Saves the changes.
+            </summary>
+        </member>
+        <member name="T:BoatApi.Business.Logic.Common.IUnitOfWork">
+            <summary>
+            Unit Of Work
             </summary>
         </member>
         <member name="M:BoatApi.Business.Logic.Common.IUnitOfWork.Commit">
@@ -703,6 +810,55 @@
             <summary>
             Starts a transaction on this unit of work
             </summary>
+        </member>
+        <member name="T:BoatApi.Business.Logic.Common.UnitOfWork">
+            <summary>
+            Unit Of Work
+            </summary>
+        </member>
+        <member name="P:BoatApi.Business.Logic.Common.UnitOfWork.DbContext">
+            <summary>
+            The databse context
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.UnitOfWork.#ctor">
+            <summary>
+            Default contructor
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.UnitOfWork.Dispose">
+            <summary>
+            Dispose the object
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.UnitOfWork.StartTransaction">
+            <summary>
+            Create transaction scope
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.Common.UnitOfWork.Commit">
+            <summary>
+            Commit the changes to the database
+            </summary>
+        </member>
+        <member name="T:BoatApi.Business.Logic.UserRepository">
+            <summary>
+            Repository for users
+            </summary>
+        </member>
+        <member name="M:BoatApi.Business.Logic.UserRepository.#ctor(BoatApi.Business.Logic.Common.IUnitOfWork)">
+            <summary>
+            Contructor with UnitOfWork
+            </summary>
+            <param name="unitOfWork">UnitOfWork object</param>
+        </member>
+        <member name="M:BoatApi.Business.Logic.UserRepository.FindUser(System.String,System.String)">
+            <summary>
+            Find a user has a specific email and password
+            </summary>
+            <param name="email">User's email</param>
+            <param name="password">User's password</param>
+            <returns></returns>
         </member>
         <member name="T:BoatApi.Controllers.AuthenticationController">
             <summary>
@@ -843,6 +999,42 @@
             </summary>
             <param name="goodId">The id of good</param>
             <returns>The record found</returns>
+        </member>
+        <member name="T:BoatApi.DataContext.ApplicationDBContext">
+            <summary>
+            Application Database Context class
+            </summary>
+        </member>
+        <member name="P:BoatApi.DataContext.ApplicationDBContext.Users">
+            <summary>
+            Link to Users
+            </summary>
+        </member>
+        <member name="P:BoatApi.DataContext.ApplicationDBContext.Authentications">
+            <summary>
+            Link to Authentications
+            </summary>
+        </member>
+        <member name="P:BoatApi.DataContext.ApplicationDBContext.Boats">
+            <summary>
+            Link to Boats
+            </summary>
+        </member>
+        <member name="P:BoatApi.DataContext.ApplicationDBContext.Good">
+            <summary>
+            Link to Goods
+            </summary>
+        </member>
+        <member name="M:BoatApi.DataContext.ApplicationDBContext.#ctor">
+            <summary>
+            Empty contructor with Default Connection
+            </summary>
+        </member>
+        <member name="M:BoatApi.DataContext.ApplicationDBContext.OnModelCreating(System.Data.Entity.DbModelBuilder)">
+            <summary>
+            Inherit from base
+            </summary>
+            <param name="modelBuilder"></param>
         </member>
         <member name="T:BoatApi.Factories.GoodFactory">
             <summary>
@@ -1058,6 +1250,11 @@
             User's password
             </summary>
         </member>
+        <member name="T:BoatApi.Utils.CookieUtil">
+            <summary>
+            For read/write cookie to the connection
+            </summary>
+        </member>
         <member name="M:BoatApi.Utils.CookieUtil.SetCookie(System.String,System.String)">
             <summary>
             Set cookie value for the current request
@@ -1075,6 +1272,11 @@
         <member name="M:BoatApi.Utils.CookieUtil.ClearCookie">
             <summary>
             Clear cookie for the current request
+            </summary>
+        </member>
+        <member name="T:BoatApi.WebException.RecordNotFoundException">
+            <summary>
+            Error when the record could not found from the request
             </summary>
         </member>
     </members>

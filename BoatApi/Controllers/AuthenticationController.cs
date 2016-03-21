@@ -25,7 +25,7 @@ namespace BoatApi.Controllers
 				AuthenticationBusiess.Authenticate(loginForm);
 				return Ok();
 			}
-			catch (NotFoundException)
+			catch (RecordNotFoundException)
 			{
 				var msg = new HttpResponseMessage(HttpStatusCode.Unauthorized)
 				{

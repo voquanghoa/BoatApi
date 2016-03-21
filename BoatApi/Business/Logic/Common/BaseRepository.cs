@@ -2,21 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace BoatApi.Business.Logic.Common
 {
+	/// <summary>
+	/// Base repository for all model (should inherit from BaseModel)
+	/// </summary>
+	/// <typeparam name="T">The class of model</typeparam>
 	public class BaseRepository<T> : IRepository<T> where T : BaseModel
 	{
-		protected readonly IUnitOfWork UnitOfWork;
-		protected DbSet<T> DbSet;
-		protected string[] Includes
-		{
-			get; set;
-		}
+		private readonly IUnitOfWork unitOfWork;
+		private readonly DbSet<T> dbSet;
 
+		/// <summary>
+		/// Contructor with unitOfWork
+		/// </summary>
+		/// <param name="unitOfWork">UnitOfWork object</param>
+		/// <exception cref="ArgumentNullException">When unitOfWork is null</exception>
 		public BaseRepository(IUnitOfWork unitOfWork)
 		{
 			if (unitOfWork == null)
@@ -24,139 +28,180 @@ namespace BoatApi.Business.Logic.Common
 				throw new ArgumentNullException("unitOfWork is null");
 			}
 				
-			UnitOfWork = unitOfWork;
-			DbSet = UnitOfWork.DbContext.Set<T>();
+			this.unitOfWork = unitOfWork;
+			dbSet = this.unitOfWork.DbContext.Set<T>();
 		}
 
+		/// <summary>
+		/// Get the object by id
+		/// </summary>
+		/// <param name="id">The object's id</param>
+		/// <returns>The object if found or an exception will throw if not found</returns>
 		public T GetById(Guid id)
 		{
-			return DbSet.Find(id);
+			return dbSet.Find(id);
 		}
 
+		/// <summary>
+		/// Get all object(s) from database
+		/// </summary>
+		/// <returns>The list of object(s)</returns>
 		public List<T> GetAll()
 		{
 			return All().ToList();
 		}
 
+		/// <summary>
+		/// Get the queryable for all object(s)
+		/// </summary>
+		/// <param name="includes">List of field's name should be included innned</param>
+		/// <returns>The queryable for all object(s)</returns>
 		public IQueryable<T> All(string[] includes = null)
 		{
 			if (includes != null && includes.Any())
 			{
-				var query = DbSet.Include(includes.First());
+				var query = dbSet.Include(includes.First());
 
 				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
 
 				return query.AsQueryable();
 			}
 
-			return DbSet.AsQueryable();
+			return dbSet.AsQueryable();
 		}
 
-		public T FindOne(Guid guid)
+		/// <summary>
+		/// Find an object by id
+		/// </summary>
+		/// <param name="id">The object's id</param>
+		/// <returns>The object if found or a Null object if not found</returns>
+		public T FindOne(Guid id)
 		{
-			return FindOne((Guid?)guid);
+			return FindOne((Guid?)id);
 		}
 
-		public T FindOne(Guid? guid)
+		/// <summary>
+		/// Find an object by id
+		/// </summary>
+		/// <param name="id">The object's id, id can be null</param>
+		/// <returns>The object if found or a Null object if not found</returns>
+		public T FindOne(Guid? id)
 		{
-			return DbSet.FirstOrDefault(x => x.Id == guid);
+			return dbSet.FirstOrDefault(x => x.Id == id);
 		}
 
+		/// <summary>
+		/// Find an object by a predicate
+		/// </summary>
+		/// <param name="predicate">The predicate</param>
+		/// <param name="includes">The list of field's name should include</param>
+		/// <returns>The object if found, null if not found</returns>
 		public T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null)
 		{
 			if (includes != null && includes.Any())
 			{
-				var query = DbSet.Include(includes.First());
+				var query = dbSet.Include(includes.First());
 
 				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
 
 				return query.FirstOrDefault(predicate);
 			}
 
-			return DbSet.FirstOrDefault(predicate);
+			return dbSet.FirstOrDefault(predicate);
 		}
 
+		/// <summary>
+		/// Create a queryable for object(s) which match a predicate
+		/// </summary>
+		/// <param name="predicate">The predicate</param>
+		/// <param name="includes">The list of field's name should include</param>
+		/// <returns>The queryable for the given filter</returns>
 		public virtual IQueryable<T> Filter(Expression<Func<T, bool>> predicate, string[] includes = null)
 		{
 			if (includes != null && includes.Any())
 			{
-				var query = DbSet.Include(includes.First());
+				var query = dbSet.Include(includes.First());
 
 				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
 
 				return query.Where(predicate).AsQueryable();
 			}
 
-			return DbSet.Where(predicate).AsQueryable();
+			return dbSet.Where(predicate).AsQueryable();
 		}
 
-		public virtual IQueryable<T> Filter(Expression<Func<T, bool>> predicate, out int total, int index = 0, int size = 50, string[] includes = null)
-		{
-			var skipCount = index * size;
-
-			IQueryable<T> resetSet;
-
-			if (includes != null && includes.Any())
-			{
-				var query = DbSet.Include(includes.First());
-
-				query = includes.Skip(1).Aggregate(query, (current, include) => current.Include(include));
-
-				resetSet = predicate != null ? query.Where(predicate).AsQueryable() : query.AsQueryable();
-			}
-			else
-			{
-				resetSet = predicate != null ? DbSet.Where(predicate).AsQueryable() : DbSet.AsQueryable();
-			}
-
-			resetSet = skipCount == 0 ? resetSet.Take(size) : resetSet.Skip(skipCount).Take(size);
-
-			total = resetSet.Count();
-
-			return resetSet.AsQueryable();
-		}
-
+		/// <summary>
+		/// Create a new object to database.
+		/// </summary>
+		/// <param name="TObject">Specified a new object to create.</param>
+		/// <returns>The created object</returns>
 		public virtual T Create(T TObject)
 		{
-			var newEntry = DbSet.Add(TObject);
+			var newEntry = dbSet.Add(TObject);
 
-			UnitOfWork.DbContext.SaveChanges();
+			unitOfWork.DbContext.SaveChanges();
 
 			return newEntry;
 		}
 
+		/// <summary>
+		/// Delete the object from database.
+		/// </summary>
+		/// <param name="TObject">Specified a existing object to delete.</param>
+		/// <returns>1 if success, 0 if failed</returns>
 		public virtual int Delete(T TObject)
 		{
-			DbSet.Remove(TObject);
-			return UnitOfWork.DbContext.SaveChanges();
+			dbSet.Remove(TObject);
+			return unitOfWork.DbContext.SaveChanges();
 		}
 
+		/// <summary>
+		/// Update object changes and save to database.
+		/// </summary>
+		/// <param name="TObject">Specified the object to save.</param>
+		/// <returns>Number of effected objects</returns>
 		public virtual int Update(T TObject)
 		{
-			DbSet.Attach(TObject);
-			UnitOfWork.DbContext.Entry(TObject).State = EntityState.Modified;
-			return UnitOfWork.DbContext.SaveChanges();
+			dbSet.Attach(TObject);
+			unitOfWork.DbContext.Entry(TObject).State = EntityState.Modified;
+			return unitOfWork.DbContext.SaveChanges();
 		}
 
+		/// <summary>
+		/// Delete objects from database by specified filter expression.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns>Number of deleted objects</returns>
 		public virtual int Delete(Expression<Func<T, bool>> predicate)
 		{
-			DbSet.RemoveRange(Filter(predicate));
-			return UnitOfWork.DbContext.SaveChanges();
+			dbSet.RemoveRange(Filter(predicate));
+			return unitOfWork.DbContext.SaveChanges();
 		}
 
+		/// <summary>
+		/// Check if we have some object(s) is exists in database by specified filter.
+		/// </summary>
+		/// <param name="predicate">Specified the filter expression</param>
+		/// <returns>true if the object(s) exist, false if not</returns>
 		public bool Contains(Expression<Func<T, bool>> predicate)
 		{
-			return DbSet.Any(predicate);
+			return dbSet.Any(predicate);
 		}
 
+		/// <summary>
+		/// Saves the changes.
+		/// </summary>
 		public virtual void SaveChanges()
 		{
-			UnitOfWork.DbContext.SaveChanges();
+			unitOfWork.DbContext.SaveChanges();
 		}
 
+		/// <summary>
+		/// Dispose the data context
+		/// </summary>
 		public void Dispose()
 		{
-			UnitOfWork.DbContext?.Dispose();
+			unitOfWork.DbContext?.Dispose();
 		}
 	}
 }

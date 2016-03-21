@@ -3,6 +3,9 @@ using System.Data.Entity;
 
 namespace BoatApi.Business.Logic.Common
 {
+	/// <summary>
+	/// Unit Of Work
+	/// </summary>
 	public interface IUnitOfWork : IDisposable
 	{
 		/// <summary>

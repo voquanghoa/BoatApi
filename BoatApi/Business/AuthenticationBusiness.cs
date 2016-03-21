@@ -52,7 +52,7 @@ namespace BoatApi.Business
 
 			if (user == null)
 			{
-				throw  new NotFoundException();
+				throw  new RecordNotFoundException();
 			}
 
 			var authentication = new Authentication()

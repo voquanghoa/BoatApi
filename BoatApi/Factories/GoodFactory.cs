@@ -17,7 +17,7 @@ namespace BoatApi.Factories
 		/// <returns>The good DTO object</returns>
 		public GoodDTO CreateGoodDTO(Good good)
 		{
-			return new GoodDTO()
+			return new GoodDTO
 			{
 				Id = good.Id,
 				ImageUrl = good.ImageUrl,
@@ -32,7 +32,7 @@ namespace BoatApi.Factories
 		/// <returns>The created good object</returns>
 		public Good CreateGood(GoodForm addGoodForm)
 		{
-			return new Good()
+			return new Good
 			{
 				Id = Guid.NewGuid(),
 				ImageUrl = addGoodForm.ImageUrl,

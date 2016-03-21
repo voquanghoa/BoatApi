@@ -3,59 +3,50 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 
 namespace BoatApi.Business.Logic.Common
 {
+	/// <summary>
+	/// Interface for repository
+	/// </summary>
+	/// <typeparam name="T">The database model inhenrit from BaseModel</typeparam>
 	public interface IRepository<T> : IDisposable where T : class
 	{
 		/// <summary>
 		/// Gets all objects from database
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The queryable of all objects</returns>
 		IQueryable<T> All(string[] includes = null);
 
 		/// <summary>
-		/// 
+		/// Get the object by id
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="id"></param>
-		/// <returns></returns>
+		/// <param name="id">The object's id</param>
+		/// <returns>The object if found or an exception will throw if not found</returns>
 		T GetById(Guid id);
 
 		/// <summary>
-		/// Find object by specified expression.
+		/// Find one object(s) by a predicate
 		/// </summary>
-		/// <param name="predicate"></param>
-		/// <param name="includes"></param>
-		/// <returns></returns>
+		/// <param name="predicate">The predicate</param>
+		/// <param name="includes">The list of field's name should include</param>
+		/// <returns>The object if found, null if not found</returns>
 		T FindOne(Expression<Func<T, bool>> predicate, string[] includes = null);
 
 
 		/// <summary>
-		/// Gets objects from database by filter.
+		/// Create a queryable for object(s) which match a predicate
 		/// </summary>
-		/// <param name="predicate">Specified a filter</param>
-		/// <param name="includes">Includes objects</param>
-		/// <returns></returns>
+		/// <param name="predicate">The predicate</param>
+		/// <param name="includes">The list of field's name should include</param>
+		/// <returns>The queryable for the given filter</returns>
 		IQueryable<T> Filter(Expression<Func<T, bool>> predicate, string[] includes = null);
-
-		/// <summary>
-		/// Gets objects from database with filting and paging.
-		/// </summary>
-		/// <param name="filter">Specified a filter</param>
-		/// <param name="total">Returns the total records count of the filter.</param>
-		/// <param name="index">Specified the page index.</param>
-		/// <param name="size">Specified the page size</param>
-		/// <param name="includes"></param>
-		/// <returns></returns>
-		IQueryable<T> Filter(Expression<Func<T, bool>> filter, out int total, int index = 0, int size = 50, string[] includes = null);
 
 		/// <summary>
 		/// Gets the object(s) is exists in database by specified filter.
 		/// </summary>
 		/// <param name="predicate">Specified the filter expression</param>
-		/// <returns></returns>
+		/// <returns>true if the object(s) exist, false if not</returns>
 		bool Contains(Expression<Func<T, bool>> predicate);
 
 		/// <summary>
@@ -82,7 +73,7 @@ namespace BoatApi.Business.Logic.Common
 		/// Update object changes and save to database.
 		/// </summary>
 		/// <param name="t">Specified the object to save.</param>
-		/// <returns></returns>
+		/// <returns>Number of effected objects</returns>
 		int Update(T t);
 
 		/// <summary>

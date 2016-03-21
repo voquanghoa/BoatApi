@@ -37,14 +37,14 @@ namespace BoatApi.Business
 		/// </summary>
 		/// <param name="boatId">The boat id</param>
 		/// <returns>The boat if found</returns>
-		/// <exception cref="NotFoundException">If the databse does not contain any boat with the given id</exception>
+		/// <exception cref="RecordNotFoundException">If the databse does not contain any boat with the given id</exception>
 		public Boat GetOne(Guid? boatId)
 		{
 			var boat = boatRepository.FindOne(boatId);
 
 			if (boatId == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			return boat;
@@ -71,12 +71,12 @@ namespace BoatApi.Business
 		/// Delete an existing boat with id
 		/// </summary>
 		/// <param name="boatId">Id of the boat</param>
-		/// <exception cref="NotFoundException">If not found</exception>
+		/// <exception cref="RecordNotFoundException">If not found</exception>
 		public void Delete(Guid? boatId)
 		{
 			if (boatRepository.Delete(x => x.Id == boatId) == 0)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 		}
 
@@ -85,14 +85,14 @@ namespace BoatApi.Business
 		/// </summary>
 		/// <param name="boatId">Id of the boat</param>
 		/// <param name="updateBoatForm">The form contains boat's information</param>
-		/// <exception cref="NotFoundException">If not found</exception>
+		/// <exception cref="RecordNotFoundException">If not found</exception>
 		public void Update(Guid? boatId, BoatForm updateBoatForm)
 		{
 			var boat = boatRepository.FindOne(x=>x.Id == boatId);
 
 			if (boat == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			if (!string.IsNullOrEmpty(updateBoatForm.ImageUrl))

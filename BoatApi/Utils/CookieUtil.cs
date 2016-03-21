@@ -3,6 +3,9 @@ using System.Web;
 
 namespace BoatApi.Utils
 {
+	/// <summary>
+	/// For read/write cookie to the connection
+	/// </summary>
 	public class CookieUtil
 	{
 		/// <summary>
@@ -12,7 +15,7 @@ namespace BoatApi.Utils
 		/// <param name="cookieValue">The cookie value</param>
 		public static void SetCookie(string cookieName, string cookieValue)
 		{
-			HttpCookie cookie = new HttpCookie(cookieName, cookieValue);
+			var cookie = new HttpCookie(cookieName, cookieValue);
 			HttpContext.Current.Response.Cookies.Add(cookie);
 		}
 

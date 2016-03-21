@@ -53,7 +53,7 @@ namespace BoatApi.Business
 
 			if (boat == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			var goods = goodRepository.Filter(x => x.Boat.Id == boat.Id).ToList();
@@ -72,7 +72,7 @@ namespace BoatApi.Business
 
 			if (boat == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			var good = goodFactory.CreateGood(addBoatForm);
@@ -90,7 +90,7 @@ namespace BoatApi.Business
 		{
 			if (goodRepository.Delete(x => x.Id == goodId) == 0)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 		}
 
@@ -99,14 +99,14 @@ namespace BoatApi.Business
 		/// </summary>
 		/// <param name="goodId">The id of good</param>
 		/// <param name="goodForm">The form contains good's information</param>
-		/// <exception cref="NotFoundException">When we can not found the good or the new boat</exception>
+		/// <exception cref="RecordNotFoundException">When we can not found the good or the new boat</exception>
 		public void Update(Guid? goodId, GoodForm goodForm)
 		{
 			var good = goodRepository.FindOne(x => x.Id == goodId, new [] {"Boat"});
 
 			if (good == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			good.Quality = goodForm.Quality;
@@ -117,7 +117,7 @@ namespace BoatApi.Business
 				var newBoat = boatRepository.FindOne(goodForm.BoatId);
 				if (newBoat == null)
 				{
-					throw new NotFoundException();
+					throw new RecordNotFoundException();
 				}
 				good.Boat = newBoat;
 			}
@@ -130,14 +130,14 @@ namespace BoatApi.Business
 		/// </summary>
 		/// <param name="goodId">Id of the record</param>
 		/// <returns>The good record</returns>
-		/// <exception cref="NotFoundException">If not found</exception>
+		/// <exception cref="RecordNotFoundException">If not found</exception>
 		public Good GetOne(Guid? goodId)
 		{
 			var good = goodRepository.FindOne(goodId);
 
 			if (goodId == null)
 			{
-				throw new NotFoundException();
+				throw new RecordNotFoundException();
 			}
 
 			return good;

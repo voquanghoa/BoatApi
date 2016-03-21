@@ -17,7 +17,11 @@ namespace BoatApi.Controllers
 		/// We allow multiple login with an account
 		/// </summary>
 		/// <param name="loginForm">Login form, with email/password</param>
-		/// <returns>The status code is 200 if success, 401 if failed</returns>
+		/// <returns>If success:
+		/// The status code will be 200.
+		/// The cookie with name SESSONHASH will contains the sesson hash
+		/// If failed: 
+		/// The status code will be 401 when the request given a wrong email or password.</returns>
 		public IHttpActionResult Post(LoginForm loginForm)
 		{
 			try
